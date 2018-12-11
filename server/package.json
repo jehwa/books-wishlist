@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "ta-zonar server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jehwa/books-wishlist.git"
+  },
+  "author": "jehwa shin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jehwa/books-wishlist/issues"
+  },
+  "homepage": "https://github.com/jehwa/books-wishlist#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
