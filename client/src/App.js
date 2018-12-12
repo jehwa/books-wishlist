@@ -33,9 +33,9 @@ class App extends Component {
   }
 
   update(bookId, from){
-    let to = from === 'Book List' ? 'Wish List' : 'Book List';
-    let currentBooks = this.state.books;
-    let book = this.state.books[from][bookId];
+    const to = (from === 'Book List') ? 'Wish List' : 'Book List';
+    const currentBooks = this.state.books;
+    const book = this.state.books[from][bookId];
 
     delete currentBooks[from][bookId];
     currentBooks[to][bookId] = book;

@@ -13,7 +13,7 @@ function BookList(props) {
       <div>
         {Object.keys(props.books).map((bookId, index) => 
           <BookListEntry 
-          key={index} 
+          key={bookId} 
           index={index}
           book={props.books[bookId]}
           category={props.column} 
