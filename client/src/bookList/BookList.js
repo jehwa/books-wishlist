@@ -4,11 +4,9 @@ import { Droppable } from 'react-beautiful-dnd';
 
 import BookListEntry from './BookListEntry';
 
-
-
 function BookList(props) {
   return (
-    <div>
+    <div className="list-container">
       <h3>
         {props.column}
       </h3>
