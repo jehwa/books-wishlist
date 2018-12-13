@@ -5,17 +5,25 @@ import './BookListEntry.css';
 
 function BookListEntry(props) {
   return (
-    <div className="book-container">
-      <div className="book-info">
-        Title: {props.book.title}
-        Author: {props.book.author}
-        Description: {props.book.description}
-        Genre: {props.book.genre}
-      </div>
-      <button onClick={() => props.update(props.book.id, props.category)}>
-        {props.category === 'Book List' ? '+Add' : '-Delete'}
-      </button>
-    </div>
+    <Draggable draggableId={props.book.id} index={props.index}>
+      {(provided) => (
+        <div className="book-container"
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
+          <div className="book-info">
+            Title: {props.book.title}
+            {/* Author: {props.book.author}
+            Description: {props.book.description}
+            Genre: {props.book.genre} */}
+          </div>
+          <button onClick={() => console.log('clicked!')}>
+            {props.category === 'Book List' ? '+Add' : '-Delete'}
+          </button>
+        </div>
+      )}
+    </Draggable>
   )
 }
 

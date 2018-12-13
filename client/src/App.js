@@ -10,10 +10,11 @@ class App extends Component {
     super();
     this.state = {
       username: 'Jehwa Shin',
-      books: {}
+      books: null
     }
     this.setBooks = this.setBooks.bind(this);
     this.update = this.update.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
   }
 
   componentDidMount() {
@@ -46,28 +47,112 @@ class App extends Component {
   }
 
   onDragEnd(result) {
-    //TODO: reorder each colum; bookList and wishList
+    // console.log(result);
+    const { destination, source, draggableId } = result;
+
+    if(!destination) {
+      return;
+    }
+
+    if(
+      // dnd at the same position
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+      ) {
+        return;
+      }
+      
+      // const column = this.state.books.columns[source.droppableId];
+      const start = this.state.books.columns[source.droppableId];
+      const finish = this.state.books.columns[destination.droppableId];
+
+      if(start === finish) {
+        const newBookIds = Array.from(start.bookIds);
+        newBookIds.splice(source.index, 1);
+        newBookIds.splice(destination.index, 0, draggableId);
+  
+        const newColumn = {
+          ...start,
+          'bookIds': newBookIds
+        }
+  
+        const newBookState = {
+          ...this.state.books,
+          columns: {
+            ...this.state.books.columns,
+            [newColumn.id]: newColumn
+          }
+        }
+  
+        this.setState({books: newBookState});
+        return;
+      }
+
+      const startBookIds = Array.from(start.bookIds);
+      startBookIds.splice(source.index, 1);
+      const newStart = {
+        ...start,
+        bookIds: startBookIds,
+      }
+
+      const finishBookIds = Array.from(finish.bookIds);
+      finishBookIds.splice(destination.index, 0, draggableId);
+
+      const newFinish = {
+        ...finish,
+        bookIds: finishBookIds
+      }
+
+      const newBookState = {
+        ...this.state.books,
+        columns: {
+          ...this.state.books.columns,
+          [newStart.id]: newStart,
+          [newFinish.id]: newFinish
+        }
+      }
+
+      this.setState({books: newBookState});
+
   }
 
   render() {
-    return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
+    if(this.state.books) {
+      return (
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          <div className="App">
+            <h1>
+              Welcome to {this.state.username}'s books wishlist
+            </h1>
+            <div className="books">
+              {this.state.books.columnOrder.map(columnId => {
+                const column = this.state.books.columns[columnId];
+                const books = column.bookIds.map(bookId => this.state.books.books[bookId])
+
+                return <BookList key={column.id} column={column} books={books} />
+                })
+              }
+            </div>
+          </div>
+        </DragDropContext>
+      );
+    } else {
+      return (
         <div className="App">
           <h1>
             Welcome to {this.state.username}'s books wishlist
           </h1>
-          <div className="books">
-            {Object.keys(this.state.books).map((colName, index) => 
-              <BookList 
-              column={colName} 
-              books={this.state.books[colName]} 
-              key={index}
-              update={this.update.bind(this)}/>)}
-          </div>
         </div>
-      </DragDropContext>
-    );
+      )
+    }
   }
 }
 
 export default App;
+
+  // {/* // {Object.keys(this.state.books).map((colName, index) => 
+  // //   <BookList 
+  // //   column={colName} 
+  // //   books={this.state.books[colName]} 
+  // //   key={index}
+  // //   update={this.update.bind(this)}/>)} */}
