@@ -8,7 +8,6 @@
 }
 
 .book-list-container{
-  /* border: 1px solid black; */
   flex-grow: 1;
   min-height: 100px;
 }

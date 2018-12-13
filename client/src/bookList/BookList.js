@@ -1,7 +1,6 @@
 import React from 'react';
 import './BookList.css';
 import { Droppable } from 'react-beautiful-dnd';
-
 import BookListEntry from './BookListEntry';
 
 function BookList(props) {

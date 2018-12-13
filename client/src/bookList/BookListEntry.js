@@ -1,6 +1,6 @@
 import React from 'react';
-import { Draggable } from 'react-beautiful-dnd';
 import './BookListEntry.css';
+import { Draggable } from 'react-beautiful-dnd';
 
 
 function BookListEntry(props) {
@@ -13,13 +13,13 @@ function BookListEntry(props) {
           ref={provided.innerRef}
         >
           <div className="book-info">
-            Title: {props.book.title}
-            {/* Author: {props.book.author}
-            Description: {props.book.description}
-            Genre: {props.book.genre} */}
+            <p>
+              <strong> Title: </strong>
+              {props.book.title}
+            </p>
           </div>
-          <button onClick={() => props.listUpdate(props.columnId, props.book.id, props.index)}>
-            {(props.columnId === 'column-1') ? '+Add' : '-Remove'}
+          <button className="add-delete" onClick={() => props.listUpdate(props.columnId, props.book.id, props.index)}>
+            {(props.columnId === 'column-1') ? '+ Add' : '- Remove'}
           </button>
         </div>
       )}

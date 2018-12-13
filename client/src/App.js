@@ -12,7 +12,6 @@ class App extends Component {
       username: 'Jehwa Shin',
       books: null
     }
-    this.update = this.update.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
     this.clearWishList = this.clearWishList.bind(this);
     this.listUpdate = this.listUpdate.bind(this);
@@ -28,30 +27,15 @@ class App extends Component {
       .catch(err => {throw err})
   }
 
-  update(bookId, from){
-    const to = (from === 'Book List') ? 'Wish List' : 'Book List';
-    const currentBooks = this.state.books;
-    const book = this.state.books[from][bookId];
-
-    delete currentBooks[from][bookId];
-    currentBooks[to][bookId] = book;
-
-    this.setState({
-      books: currentBooks
-    })
-  }
-
   listUpdate(colId, bookId, indexFrom) {
     const from = colId;
     const to = colId === 'column-1' ? 'column-2' : 'column-1';
-  
     const fromColumn = this.state.books.columns[from];
-    const toColumn = this.state.books.columns[to];
-  
+    const toColumn = this.state.books.columns[to]; 
     const newFromBookIds = Array.from(fromColumn.bookIds);
-    newFromBookIds.splice(indexFrom, 1);
-    
     const newToBookIds = Array.from(toColumn.bookIds);
+    
+    newFromBookIds.splice(indexFrom, 1);
     newToBookIds.unshift(bookId);
   
     const newfromColumn = {
@@ -74,7 +58,6 @@ class App extends Component {
     }
   
     this.setState({ books: newBookState });
-
   }
 
   onDragEnd(result) {
@@ -144,7 +127,6 @@ class App extends Component {
   }
 
   clearWishList() {
-
     const bookColumn = this.state.books.columns['column-1'];
     const wishColumn = this.state.books.columns['column-2']
     const currentBookList = bookColumn.bookIds;
