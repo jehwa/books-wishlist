@@ -1,0 +1,12 @@
+{
+  "name": "ta-zonar",
+  "version": "1.0.0",
+  "description": "ta-zonar",
+  "scripts": {
+    "test": "(cd client && npm run test)",
+    "start": "(cd server && npm start) | (cd client && npm start)",
+    "install": "(cd client && npm install);(cd server && npm install);"
+  },
+  "author": "jehwa shin",
+  "license": "ISC"
+}
