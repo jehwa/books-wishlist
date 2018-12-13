@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import BookListEntry from './BookListEntry';
-
 import { DragDropContext } from 'react-beautiful-dnd';
-
 import { booksList } from '../__mock__/mockTestData';
-
 
 const mockColumnId = 'columnone'
 const mockIndex = 1;
