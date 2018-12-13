@@ -37,14 +37,3 @@ function BookList(props) {
 }
 
 export default BookList
-
-
-// {/* {Object.keys(props.books).map((bookId, index) => 
-//   <BookListEntry 
-//   key={bookId} 
-//   index={index}
-//   book={props.books[bookId]}
-//   category={props.column} 
-//   update={props.update}/>
-//   )
-// } */}

@@ -19,7 +19,7 @@ function BookListEntry(props) {
             Genre: {props.book.genre} */}
           </div>
           <button onClick={() => props.listUpdate(props.columnId, props.book.id, props.index)}>
-            {(props.columnId === 'column-1') ? '+Add' : '-Delete'}
+            {(props.columnId === 'column-1') ? '+Add' : '-Remove'}
           </button>
         </div>
       )}

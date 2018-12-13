@@ -1,5 +1,6 @@
 .book-container{
   border: 1px solid gray;
-  border-radius: 2%;
-  margin-bottom: 5px;
+  border-radius: 15px;
+  margin: 5px;
+  background-color: white;
 }

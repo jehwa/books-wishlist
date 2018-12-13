@@ -6,13 +6,12 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import axios from 'axios';
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       username: 'Jehwa Shin',
       books: null
     }
-    this.setBooks = this.setBooks.bind(this);
     this.update = this.update.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
     this.clearWishList = this.clearWishList.bind(this);
@@ -23,15 +22,9 @@ class App extends Component {
     this.getBooks();
   }
 
-  setBooks(books) {
-    this.setState({
-      books: books
-    })
-  }
-
   getBooks() {
     axios.get('/books')
-      .then((data) => this.setBooks(data.data))
+      .then(res => this.setState({books: res.data}))
       .catch(err => {throw err})
   }
 
@@ -184,14 +177,14 @@ class App extends Component {
   }
 
   render() {
-    if(this.state.books) {
-      return (
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          <div className="App">
-            <h1>
-              Welcome to {this.state.username}'s books wishlist
-            </h1>
-            <button onClick={this.clearWishList}> Clear Wish List! </button>
+    return (
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <div className="App">
+          <h1>
+            Welcome to {this.state.username}'s books wishlist
+          </h1>
+          <button onClick={this.clearWishList}> Clear Wish List! </button>
+          { this.state.books ? (
             <div className="books">
               {this.state.books.columnOrder.map(columnId => {
                 const column = this.state.books.columns[columnId];
@@ -206,18 +199,10 @@ class App extends Component {
                 })
               }
             </div>
-          </div>
-        </DragDropContext>
-      );
-    } else {
-      return (
-        <div className="App">
-          <h1>
-            Welcome to {this.state.username}'s books wishlist
-          </h1>
+          ) : (<h5> Loading... </h5>)}
         </div>
-      )
-    }
+      </DragDropContext>
+    )
   }
 }
 
