@@ -15,6 +15,8 @@ class App extends Component {
     this.setBooks = this.setBooks.bind(this);
     this.update = this.update.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
+    this.clearWishList = this.clearWishList.bind(this);
+    this.listUpdate = this.listUpdate.bind(this);
   }
 
   componentDidMount() {
@@ -46,8 +48,43 @@ class App extends Component {
     })
   }
 
+  listUpdate(colId, bookId, indexFrom) {
+    const from = colId;
+    const to = colId === 'column-1' ? 'column-2' : 'column-1';
+  
+    const fromColumn = this.state.books.columns[from];
+    const toColumn = this.state.books.columns[to];
+  
+    const newFromBookIds = Array.from(fromColumn.bookIds);
+    newFromBookIds.splice(indexFrom, 1);
+    
+    const newToBookIds = Array.from(toColumn.bookIds);
+    newToBookIds.unshift(bookId);
+  
+    const newfromColumn = {
+      ...fromColumn,
+      bookIds: newFromBookIds
+    }
+  
+    const newToColumn = {
+      ...toColumn,
+      bookIds: newToBookIds
+    }
+  
+    const newBookState = {
+      ...this.state.books,
+      columns: {
+        ...this.state.books.columns,
+        [from]: newfromColumn,
+        [to]: newToColumn
+      }
+    }
+  
+    this.setState({ books: newBookState });
+
+  }
+
   onDragEnd(result) {
-    // console.log(result);
     const { destination, source, draggableId } = result;
 
     if(!destination) {
@@ -55,14 +92,12 @@ class App extends Component {
     }
 
     if(
-      // dnd at the same position
       destination.droppableId === source.droppableId &&
       destination.index === source.index
       ) {
         return;
       }
       
-      // const column = this.state.books.columns[source.droppableId];
       const start = this.state.books.columns[source.droppableId];
       const finish = this.state.books.columns[destination.droppableId];
 
@@ -113,6 +148,38 @@ class App extends Component {
       }
 
       this.setState({books: newBookState});
+  }
+
+  clearWishList() {
+
+    const bookColumn = this.state.books.columns['column-1'];
+    const wishColumn = this.state.books.columns['column-2']
+    const currentBookList = bookColumn.bookIds;
+    const currentWishList = wishColumn.bookIds;
+    const wholeBookList = [...currentWishList, ...currentBookList];
+    
+    const newBookColumn = {
+      ...bookColumn,
+      bookIds: wholeBookList
+    }
+
+    const newWishColumn = {
+      ...wishColumn,
+      bookIds: []
+    }
+
+    const newBookState = {
+      ...this.state.books,
+      columns: {
+        ...this.state.books.columns,
+        'column-1': newBookColumn,
+        'column-2': newWishColumn
+      }
+    }
+
+    this.setState({
+      books: newBookState
+    })
 
   }
 
@@ -124,12 +191,18 @@ class App extends Component {
             <h1>
               Welcome to {this.state.username}'s books wishlist
             </h1>
+            <button onClick={this.clearWishList}> Clear Wish List! </button>
             <div className="books">
               {this.state.books.columnOrder.map(columnId => {
                 const column = this.state.books.columns[columnId];
                 const books = column.bookIds.map(bookId => this.state.books.books[bookId])
 
-                return <BookList key={column.id} column={column} books={books} />
+                return <BookList 
+                  key={column.id} 
+                  column={column} 
+                  books={books} 
+                  listUpdate={this.listUpdate}
+                  />
                 })
               }
             </div>
@@ -149,10 +222,3 @@ class App extends Component {
 }
 
 export default App;
-
-  // {/* // {Object.keys(this.state.books).map((colName, index) => 
-  // //   <BookList 
-  // //   column={colName} 
-  // //   books={this.state.books[colName]} 
-  // //   key={index}
-  // //   update={this.update.bind(this)}/>)} */}

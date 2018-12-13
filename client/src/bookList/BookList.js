@@ -20,9 +20,11 @@ function BookList(props) {
           >
             {props.books.map((book, index) =>
               <BookListEntry
+              columnId={props.column.id}
               key={book.id}
               index={index}
               book={book}
+              listUpdate={props.listUpdate}
               />
             )}
             {provided.placeholder}

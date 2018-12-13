@@ -18,8 +18,8 @@ function BookListEntry(props) {
             Description: {props.book.description}
             Genre: {props.book.genre} */}
           </div>
-          <button onClick={() => console.log('clicked!')}>
-            {props.category === 'Book List' ? '+Add' : '-Delete'}
+          <button onClick={() => props.listUpdate(props.columnId, props.book.id, props.index)}>
+            {(props.columnId === 'column-1') ? '+Add' : '-Delete'}
           </button>
         </div>
       )}
