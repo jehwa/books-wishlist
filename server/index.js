@@ -5,12 +5,6 @@ const port = 5000
 
 
 app.get('/books', (req, res) => {
-  // let mapedBooks = {'Book List' : {}, 'Wish List': {}};
-  // books.forEach(book => {
-  //   mapedBooks["Book List"][book.id] = book;
-  // })
-  // res.json(mapedBooks);
-
   let mapedBooks = {
     'books': {},
     'columns': {
@@ -27,4 +21,4 @@ app.get('/books', (req, res) => {
   res.json(mapedBooks);
 })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`App listening on port ${port}!`))
